@@ -1,1 +1,18 @@
-<h1>Login</h1>
+<html>
+  <head>
+    <title>Edenthought | Login</title>
+  </head>
+
+  <div class="container">
+    <h3>Login to your account</h3>
+    <br />
+    <br />
+
+    <form method="POST" autocomplete="off">
+      {% csrf_token %} {{LoginForm.as_p }}
+      <br />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</html>
