@@ -1,4 +1,5 @@
-{% load static %}
+{% load static %} {% load crispy_forms_tags %}
+
 <html>
   <head>
     <title>Edenthought | Login</title>
@@ -20,7 +21,8 @@
     <br />
 
     <form method="POST" autocomplete="off">
-      {% csrf_token %} {{LoginForm.as_p }}
+      {% csrf_token %} {{LoginForm | crispy}}
+
       <br />
       <button
         type="submit"
