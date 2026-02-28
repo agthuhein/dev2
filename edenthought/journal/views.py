@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import CreateUserForm, LoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def homepage(request):
@@ -46,5 +47,6 @@ def my_logout(request):
     return redirect("")
 
 
+@login_required(login_url="my-login")
 def dashboard(request):
     return render(request, "journal/dashboard.html")
