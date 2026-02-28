@@ -22,6 +22,7 @@ def register(request):
     return render(request, "journal/register.html", context)
 
 
+# User login
 def my_login(request):
     form = LoginForm()
     if request.method == "POST":
@@ -37,6 +38,12 @@ def my_login(request):
 
     context = {"LoginForm": form}
     return render(request, "journal/my-login.html", context)
+
+
+# User logout
+def my_logout(request):
+    auth.logout(request)
+    return redirect("")
 
 
 def dashboard(request):
