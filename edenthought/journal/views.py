@@ -83,8 +83,10 @@ def my_thoughts(request):
 # update thought
 @login_required(login_url="my-login")
 def updateThoughts(request, pk):
-
-    thought = Thought.objects.get(id=pk)
+    try:
+        thought = Thought.objects.get(id=pk, user=request.user)
+    except:
+        return redirect("my-thought")
     form = ThoughForm(instance=thought)
     if request.method == "POST":
         form = ThoughForm(request.POST, instance=thought)
@@ -94,3 +96,17 @@ def updateThoughts(request, pk):
 
     context = {"UpdateThoughtForm": form}
     return render(request, "journal/update-thought.html", context)
+
+
+@login_required(login_url="my-login")
+def deleteThought(request, pk):
+    try:
+        thought = Thought.objects.get(id=pk, user=request.user)
+    except:
+        return redirect("my-thought")
+
+    if request.method == "POST":
+        thought.delete()
+        return redirect("my-thought")
+
+    return render(request, "journal/delete-thought.html")
