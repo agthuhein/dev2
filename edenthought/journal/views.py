@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Thought
 
 
 def homepage(request):
@@ -55,7 +56,7 @@ def dashboard(request):
 
 # Create thought form
 @login_required(login_url="my-login")
-def createThough(request):
+def createThought(request):
     form = ThoughForm()
     if request.method == "POST":
         form = ThoughForm(request.POST)
@@ -63,7 +64,17 @@ def createThough(request):
             thought = form.save(commit=False)
             thought.user = request.user
             thought.save()
-            return redirect("dashboard")
+            return redirect("my-thought")
 
     context = {"CreateThoughtForm": form}
     return render(request, "journal/create-though.html", context)
+
+
+# My thought
+@login_required(login_url="my-login")
+def my_thoughts(request):
+    current_user = request.user.id
+
+    thoughts = Thought.objects.all().filter(user=current_user)
+    context = {"AllThoughts": thoughts}
+    return render(request, "journal/my-thoughts.html", context)
